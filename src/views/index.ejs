@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Endpoints y Descripciones</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #4a90e2;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      color: #333;
+      border-bottom: 2px solid #4a90e2;
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+    }
+
+    details {
+      background-color: #ffffff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      padding: 15px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    details summary {
+      font-weight: bold;
+      cursor: pointer;
+      color: #4a90e2;
+    }
+
+    details summary:hover {
+      color: #357abd;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    pre {
+      background-color: #f8f8f8;
+      border-left: 4px solid #4a90e2;
+      padding: 10px;
+      border-radius: 3px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      /* Allows text wrapping */
+    }
+
+    code {
+      font-family: monospace;
+      color: #e94e77;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Endpoints y Descripciones</h1>
+
+  <h2>Endpoints de Actividades</h2>
+  <details>
+    <summary><code>GET /api/v1/actividades</code></summary>
+    <ul>
+      <li><strong>Descripción:</strong> Obtener una lista de todas las actividades. Puedes filtrar las actividades por
+        estado utilizando el parámetro de consulta <code>estado</code>. Los valores posibles para <code>estado</code>
+        son:
+          <ul>
+            <li>&emsp;&emsp;&emsp;&emsp;&emsp;<code>1</code> - En revisión</li>
+            <li>&emsp;&emsp;&emsp;&emsp;&emsp;<code>2</code> - Aprobado</li>
+            <li>&emsp;&emsp;&emsp;&emsp;&emsp;<code>3</code> - Rechazado</li>
+          </ul>
+      </li>
+      <br>
+      <li><strong>Instrucciones:</strong> Utiliza el parámetro de consulta <code>estado</code> para filtrar los
+        resultados. Por ejemplo, para obtener actividades con estado "Aprobado", la solicitud debería ser
+        <code>/api/actividades?estado=2</code>. Si no se proporciona el parámetro <code>estado</code>, se devolverán
+        todas las actividades.
+      </li>
+      <br>
+      <li><strong>Ejemplo de solicitud:</strong></li>
+      <pre>
+          // Para obtener todas las actividades:
+        <code>
+          GET /api/v1/actividades
+        </code>
+          // Para obtener actividades con estado "En Revisión":
+        <code>
+          GET /api/v1/actividades?estado=1
+        </code>
+          // Para obtener actividades con estado "Aprobado":
+        <code>
+          GET /api/v1/actividades?estado=2
+        </code>
+          // Para obtener actividades con estado "Rechazado":
+        <code>
+          GET /api/v1/actividades?estado=3
+        </code></pre>
+      <li><strong>Ejemplo de respuesta:</strong></li>
+      <pre><code>
+[
+    {
+        "id": 4,
+        "nombre_actividad": "Nueva Actividad",
+        "objetivos": "Objetivo de la actividad",
+        "actividades_principales": "Actividades principales",
+        "descripcion": "Descripción de la actividad",
+        "ubicacion": "Ubicación de la actividad",
+        "carrera": "Ingeniería en Sistemas",
+        "ambito": "Deportivo",
+        "coordinador": "María González",
+        "estudiante": "Juan Pérez",
+        "horas_art140": 10,
+        "cupos": 20,
+        "cupos_disponibles": 20,
+        "fecha": "2024-07-21T00:00:00.000Z",
+        "hora_inicio": "08:00",
+        "hora_final": "10:00",
+        "fecha_entrega": "2024-07-22T04:39:00.467Z",
+        "estado": "En Revisión",
+        "observaciones": "Observaciones",
+        "informe": null
+    },
+    ...
+]
+        </code></pre>
+      <li><strong>Errores posibles:</strong></li>
+      <ul>
+        <li><strong><code>400 Bad Request:</code></strong> Si el valor del parámetro <code>estado</code> no es válido.
+          <pre><code>
+{
+    "error": "Estado no válido"
+}
+            </code></pre>
+        </li>
+        <li><strong><code>500 Internal Server Error:</code></strong> En caso de error en la base de datos o en el servidor.
+          <pre><code>
+{
+    "error": "Error al obtener las actividades"
+}
+            </code></pre>
+        </li>
+      </ul>
+    </ul>
+  </details>
+</body>
+
+</html>

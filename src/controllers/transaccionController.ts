@@ -78,6 +78,44 @@ export const crearTransaccion = async (req: Request, res: Response): Promise<voi
     }
 };
 
+//Enpoint para tranferir entre cuentas
+export const transferirFondos = async (req: Request, res: Response): Promise<void> => {
+    const { monto, descripcion, cuenta_origen, cuenta_destino, fecha } = req.body;
+
+    try {
+        // Validación de campos obligatorios
+        if (!monto || !descripcion || !cuenta_origen || !cuenta_destino || !fecha) {
+            throw new AppError('Faltan campos obligatorios', 400);
+        }
+
+        if (cuenta_origen === cuenta_destino) {
+            throw new AppError('Las cuentas origen y destino no pueden ser iguales', 400);
+        }
+
+        // Crear transacción de débito (gasto) en la cuenta de origen
+        const idGasto = uuidv4();
+        await executeQuery(
+            "INSERT INTO transacciones (id, monto, descripcion, tipo, fecha, cuenta_id) VALUES (?, ?, ?, ?, ?, ?)",
+            [idGasto, monto, descripcion, 'gastos', fecha, cuenta_origen]
+        );
+
+        // Crear transacción de crédito (ingreso) en la cuenta de destino
+        const idIngreso = uuidv4();
+        await executeQuery(
+            "INSERT INTO transacciones (id, monto, descripcion, tipo, fecha, cuenta_id) VALUES (?, ?, ?, ?, ?, ?)",
+            [idIngreso, monto, descripcion, 'ingresos', fecha, cuenta_destino]
+        );
+
+        res.status(201).json({ message: 'Transferencia realizada exitosamente' });
+    } catch (error) {
+        if (error instanceof AppError) {
+            res.status(error.statusCode).json({ error: error.message });
+        } else {
+            res.status(500).json({ error: 'Error al realizar la transferencia' });
+        }
+    }
+};
+
 // Actualizar una transacción
 export const actualizarTransaccion = async (req: Request, res: Response): Promise<void> => {
     const transaccionId = req.params.id;

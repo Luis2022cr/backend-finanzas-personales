@@ -23,6 +23,8 @@ router.post('/transacciones', transaccionController.crearTransaccion);
 router.put('/transacciones/:id', transaccionController.actualizarTransaccion);
 router.delete('/transacciones/:id', transaccionController.eliminarTransaccion);
 
-router.get('/balance-ingresos-y-gastos', otrasConsultasController.obtenerBalanceIngresosYGastos);
+router.post('/traspaso-de-fondos', transaccionController.transferirFondos);
 
+router.get('/balance-ingresos-y-gastos', otrasConsultasController.obtenerBalanceIngresosYGastos);
+ 
 export default router;

@@ -5,6 +5,7 @@ import * as transaccionController from '../controllers/transaccionController';
 import { login, register } from '../controllers/authController';
 import { authenticateJWT } from '../middlewares/authMiddleware';
 import * as otrasConsultasController from '../controllers/otrasConsultasController';
+import { obtenerBalanceTotalYPnl, obtenerHistorialBalances, registrarBalanceDiario } from '../controllers/otrasConsultasController';
 
 const router: Router = Router();
 
@@ -27,4 +28,8 @@ router.post('/traspaso-de-fondos', transaccionController.transferirFondos);
 
 router.get('/balance-ingresos-y-gastos', otrasConsultasController.obtenerBalanceIngresosYGastos);
  
-export default router;
+router.get('/balance-criypto', obtenerBalanceTotalYPnl);
+router.post('/balance-diario-criypto', registrarBalanceDiario);
+router.get('/historial-balances-criypto', obtenerHistorialBalances);
+
+export default router; 

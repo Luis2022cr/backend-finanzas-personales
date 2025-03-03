@@ -46,15 +46,22 @@ export const getTransaccionPorId = async (req: Request, res: Response): Promise<
 
 // Crear una nueva transacción
 export const crearTransaccion = async (req: Request, res: Response): Promise<void> => {
-    const { monto, descripcion, tipo, fecha, cuenta_id } = req.body;
+    const { monto, descripcion, tipo, cuenta_id } = req.body;
     const file = req.files && typeof req.files === 'object' && 'file' in req.files
         ? (req.files['file'] as Express.Multer.File[])[0]
         : undefined;
+
     try {
         // Validación de campos obligatorios
-        if (!monto || !descripcion || !tipo || !fecha || !cuenta_id) {
+        if (!monto || !descripcion || !tipo || !cuenta_id) {
             throw new AppError('Faltan campos obligatorios', 400);
         }
+
+        // Generar la fecha en UTC-6
+        const fechaUTC6 = new Date();
+        fechaUTC6.setUTCHours(fechaUTC6.getUTCHours() - 6); // Ajustar a UTC-6
+        const fechaISO = fechaUTC6.toISOString().slice(0, 19).replace("T", " "); // Formato SQL
+
         // Subir archivo si existe
         let imageUrl = '';
         if (file) {
@@ -65,7 +72,7 @@ export const crearTransaccion = async (req: Request, res: Response): Promise<voi
 
         await executeQuery(
             "INSERT INTO transacciones (id, monto, descripcion, tipo, fecha, cuenta_id, recibo) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [id, monto, descripcion, tipo, fecha, cuenta_id, imageUrl || '']
+            [id, monto, descripcion, tipo, fechaISO, cuenta_id, imageUrl || '']
         );
 
         res.status(201).json({ message: 'Transacción creada exitosamente' });

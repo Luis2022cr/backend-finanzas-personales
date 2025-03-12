@@ -74,9 +74,10 @@ export const registrarBalanceDiario = async (req: Request, res: Response): Promi
        
         // 🔹 Insertar nuevo balance diario con PNL calculado
         await executeQuery(
-            "INSERT INTO balances_diarios (id, fecha, balance_final, pnl_dia) VALUES (?, DATE('now'), ?, ?)",
+            "INSERT INTO balances_diarios (id, fecha, balance_final, pnl_dia) VALUES (?, DATE('now', '-6 hours'), ?, ?)",
             [id, balance_final, pnl_dia]
         );
+        
 
         // 🔹 Actualizar los valores en la tabla futuros_balance
         const updateQuery = ` 

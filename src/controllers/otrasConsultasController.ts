@@ -105,7 +105,6 @@ export const registrarBalanceDiario = async (req: Request, res: Response): Promi
     }
 };
 
-
 // 📌 3️⃣ Obtener historial de balances diarios
 export const obtenerHistorialBalances = async (req: Request, res: Response): Promise<void> => {
     try {

@@ -138,7 +138,7 @@ export const pagarParcialmenteDeuda = async (req: Request, res: Response): Promi
         const transaccion_id = uuidv4();
         await executeQuery(
             "INSERT INTO transacciones (id, monto, descripcion, tipo, cuenta_id) VALUES (?, ?, ?, 'gastos', ?)",
-            [transaccion_id, montoPagoNum, `Pago parcial de deuda: ${deuda.descripcion}`, cuenta_id]
+            [transaccion_id, montoPagoNum, `Pago de deuda: ${deuda.descripcion}`, cuenta_id]
         );
 
         const nuevoMontoPendiente = montoPendiente - montoPagoNum;

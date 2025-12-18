@@ -6,6 +6,7 @@ import { login, register } from '../controllers/authController';
 import { authenticateJWT } from '../middlewares/authMiddleware';
 import * as otrasConsultasController from '../controllers/otrasConsultasController';
 import { crearDeuda, obtenerDeudas, pagarDeuda, pagarParcialmenteDeuda } from '../controllers/deudasController';
+import { crearTransaccionCripto, getCriptos, getTransaccionesCripto } from '../controllers/CriptoController';
 
 const router: Router = Router();
 
@@ -28,11 +29,16 @@ router.post('/traspaso-de-fondos', transaccionController.transferirFondos);
 
 router.get('/balance-ingresos-y-gastos', otrasConsultasController.obtenerBalanceIngresosYGastos);
  
- 
 // deudas
 router.get('/deudas', obtenerDeudas);
 router.post('/crear-deudas', crearDeuda);
 router.post('/pagar-deudas', pagarDeuda);
 router.post('/pagar-deudas-parcial', pagarParcialmenteDeuda);
+
+//Cripto
+router.get('/cripto', getCriptos);
+router.post('/cripto', crearTransaccionCripto);
+router.get('/transaccionescripto', getTransaccionesCripto);
+
 
 export default router; 
